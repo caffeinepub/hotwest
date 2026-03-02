@@ -30,6 +30,28 @@ const categoryLabels: Record<string, string> = {
   toys: "Toys",
 };
 
+// Fallback product images by product ID (for seeded products without imageUrl)
+const PRODUCT_IMAGES: Record<number, string> = {
+  1: "/assets/generated/product-electronics-1.dim_400x400.jpg",
+  2: "/assets/generated/product-fashion-2.dim_400x400.jpg",
+  3: "/assets/generated/product-home-2.dim_400x400.jpg",
+  4: "/assets/generated/product-sports-1.dim_400x400.jpg",
+  5: "/assets/generated/product-beauty-1.dim_400x400.jpg",
+  6: "/assets/generated/product-toys-1.dim_400x400.jpg",
+  7: "/assets/generated/product-electronics-2.dim_400x400.jpg",
+  8: "/assets/generated/product-fashion-1.dim_400x400.jpg",
+};
+
+// Category fallback images
+const CATEGORY_IMAGES: Record<string, string> = {
+  electronics: "/assets/generated/product-electronics-1.dim_400x400.jpg",
+  fashion: "/assets/generated/product-fashion-1.dim_400x400.jpg",
+  homeKitchen: "/assets/generated/product-home-1.dim_400x400.jpg",
+  sports: "/assets/generated/product-sports-2.dim_400x400.jpg",
+  beauty: "/assets/generated/product-beauty-2.dim_400x400.jpg",
+  toys: "/assets/generated/product-toys-2.dim_400x400.jpg",
+};
+
 const STAR_POSITIONS = ["s1", "s2", "s3", "s4", "s5"] as const;
 
 function StarRating({ rating }: { rating: number }) {
@@ -127,7 +149,9 @@ export function ProductCard({ product, index, onAddToCart }: ProductCardProps) {
 
   const imgSrc = product.imageUrl?.trim()
     ? product.imageUrl
-    : `https://placehold.co/300x300/e8f5e9/2e7d32?text=${encodeURIComponent(product.name.slice(0, 12))}`;
+    : (PRODUCT_IMAGES[productIdNum] ??
+      CATEGORY_IMAGES[product.category as string] ??
+      "/assets/generated/product-electronics-1.dim_400x400.jpg");
 
   return (
     <motion.article
@@ -175,7 +199,8 @@ export function ProductCard({ product, index, onAddToCart }: ProductCardProps) {
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              `https://placehold.co/300x300/e8f5e9/2e7d32?text=${encodeURIComponent(product.name.slice(0, 12))}`;
+              CATEGORY_IMAGES[product.category as string] ??
+              "/assets/generated/product-electronics-1.dim_400x400.jpg";
           }}
         />
 

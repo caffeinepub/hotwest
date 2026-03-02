@@ -8,9 +8,9 @@ import Runtime "mo:core/Runtime";
 import List "mo:core/List";
 import Order "mo:core/Order";
 import Principal "mo:core/Principal";
-import Migration "migration";
 
-(with migration = Migration.run)
+
+
 actor {
   // Types
   type Category = {
