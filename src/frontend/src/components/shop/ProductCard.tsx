@@ -32,7 +32,7 @@ const categoryLabels: Record<string, string> = {
 
 // Fallback product images by product ID (for seeded products without imageUrl)
 const PRODUCT_IMAGES: Record<number, string> = {
-  1: "/assets/generated/product-electronics-1.dim_400x400.jpg",
+  1: "/assets/uploads/Gemini_Generated_Image_hqt1dwhqt1dwhqt1-1.png",
   2: "/assets/generated/product-fashion-2.dim_400x400.jpg",
   3: "/assets/generated/product-home-2.dim_400x400.jpg",
   4: "/assets/generated/product-sports-1.dim_400x400.jpg",
@@ -48,7 +48,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   fashion: "/assets/generated/product-fashion-1.dim_400x400.jpg",
   homeKitchen: "/assets/generated/product-home-1.dim_400x400.jpg",
   sports: "/assets/generated/product-sports-2.dim_400x400.jpg",
-  beauty: "/assets/generated/product-beauty-2.dim_400x400.jpg",
+  beauty: "/assets/uploads/Gemini_Generated_Image_hqt1dwhqt1dwhqt1-1.png",
   toys: "/assets/generated/product-toys-2.dim_400x400.jpg",
 };
 

@@ -22,6 +22,26 @@ import {
 
 type View = "home" | "products";
 
+// Frontend overrides for product data (replaces backend seed values)
+const PRODUCT_OVERRIDES: Record<number, Partial<Product>> = {
+  1: {
+    name: "Fogg Napoleon Red",
+    description:
+      "Long-lasting Fogg Napoleon Red deodorant body spray with a bold, masculine fragrance. Stay fresh and confident all day.",
+    price: 399,
+    originalPrice: 299,
+    category: Category.beauty,
+    inStock: true,
+    rating: 4.8,
+    reviewCount: BigInt(342),
+  },
+};
+
+const applyProductOverrides = (product: Product): Product => {
+  const overrides = PRODUCT_OVERRIDES[Number(product.id)];
+  return overrides ? { ...product, ...overrides } : product;
+};
+
 export default function App() {
   const [view, setView] = useState<View>("home");
   const [cartOpen, setCartOpen] = useState(false);
@@ -87,15 +107,19 @@ export default function App() {
     setView("products");
   }, []);
 
+  // Only show the single featured product (Fogg Napoleon Red, id=1)
+  const filterToFeatured = (products: Product[]): Product[] =>
+    products.filter((p) => Number(p.id) === 1).map(applyProductOverrides);
+
   // Resolve which products to display
   const getDisplayProducts = (): Product[] => {
     if (searchQuery) {
-      return searchResultsQuery.data ?? [];
+      return filterToFeatured(searchResultsQuery.data ?? []);
     }
     if (selectedCategory) {
-      return categoryProductsQuery.data ?? [];
+      return filterToFeatured(categoryProductsQuery.data ?? []);
     }
-    return allProductsQuery.data ?? [];
+    return filterToFeatured(allProductsQuery.data ?? []);
   };
 
   const isProductsLoading = (() => {
@@ -250,7 +274,10 @@ export default function App() {
                 </button>
               </motion.div>
               <ProductGrid
-                products={allProductsQuery.data?.slice(0, 10) ?? []}
+                products={filterToFeatured(allProductsQuery.data ?? []).slice(
+                  0,
+                  10,
+                )}
                 isLoading={allProductsQuery.isLoading}
                 onAddToCart={handleAddToCart}
               />
